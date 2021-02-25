@@ -1,0 +1,4 @@
+./gradlew clean :kafka-adapter:build
+./gradlew :kafka-adapter:install
+./gradlew :kafka-adapter:publishShadowPublicationToMavenLocal
+

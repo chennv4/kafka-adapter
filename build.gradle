@@ -118,6 +118,15 @@ project (':kafka-adapter') {
 		testCompile group: "org.apache.kafka", name: "kafka-streams-test-utils", version: "${kafkaVersion}"
 	}
 
+        configurations {
+        classpath {
+            exclude group: 'ch.qos.logback', module: 'logback-classic'
+            // OR
+            exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        }
+    }
+
+
 	publishing {
 		publications {
 			// Enables: `./gradlew :kafka-adapter:publishShadowPublicationToMavenLocal`
@@ -228,11 +237,16 @@ project (':kafka-adapter') {
 	// We don't want the un-shadowed jar kafka-adapter-<version>.jar (without the classifer `all`) containing only the
 	// classes of this project. If we modify the following to true, we'd see
 	// `kafka-adapter\build\libs\kafka-adapter-<version>.jar` getting produced upon build (`./gradlew build`).
-	jar.enabled = false
+	jar.enabled = true
 }
 
 project (':kafka-adapter-samples') {
+
 	dependencies {
+		if (includePravegaCredentials.toBoolean()) {
+			compile "io.pravega:pravega-keycloak-client:${pravegaCredentialsVersion}"
+		}
+
 		// Kafka dependencies
 		// compile group: "org.apache.kafka", name: "kafka_2.13", version: "${kafkaVersion}"
 		// compile group: "org.apache.kafka", name: "kafka-clients", version: "${kafkaVersion}"
