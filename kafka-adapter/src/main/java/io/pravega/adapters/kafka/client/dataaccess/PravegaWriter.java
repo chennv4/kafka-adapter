@@ -64,7 +64,7 @@ public class PravegaWriter<T> implements Writer<T> {
 
         streamManager = StreamManager.create(clientConfig);
 
-        boolean isScopeCreated = streamManager.createScope(scope);
+        boolean isScopeCreated = true; //streamManager.createScope(scope);
         if (isScopeCreated) {
             log.info("Created scope {}", scope);
         } else {
